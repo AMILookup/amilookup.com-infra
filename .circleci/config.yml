@@ -22,7 +22,7 @@ jobs:
                     zip -r9 ../$f.zip .
                 fi
             done
-            ls -l
+            ls -l ../
 
       # - run:
       #     name: Sync S3 Bucket
