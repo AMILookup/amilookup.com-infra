@@ -14,24 +14,24 @@ jobs:
           name: ZIP Lambda Functions
           command: |
             f="api_ami_get"
-            cd $f
+            cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="db_read_cache"
-            cd $f
+            cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="db_write_cache"
-            cd $f
+            cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../$f.zip .
-            
+
       # - run:
       #     name: Sync S3 Bucket
       #     command: "aws s3 sync / s3://$S3_BUCKET --delete"
