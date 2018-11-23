@@ -6,18 +6,28 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Pip install aws cli
-          command: "pip install awscli --user"
-      - run:
-          name: Check/Create S3 Bucket
+          name: install pre-reqs
           command: |
-            if aws s3 ls "s3://$S3_BUCKET" 2>&1 | grep -q 'AllAccessDisabled'
-            then
-              echo "s3://$S3_BUCKET doesn\'t exist"
-              echo "Creating s3://$S3_BUCKET"
-              aws s3api create-bucket --bucket $S3_BUCKET --region $AWS_REGION
-              exit
-            fi
+            pip install awscli --user
+            pip install aws-sam-cli --user
+      - run:
+          name: ZIP Lambda Functions
+          command: |
+            cd functions
+            for f in *; do
+                if [[ -d $f ]]; then
+                    # $f is a directory
+                    cd $f
+                    pip install -r requirements.txt --target .
+                    zip -r9 ../$f.zip .
+                    mv $f.zip ../$f.zip
+                fi
+            done
+            ls -l
+
+      # - run:
+      #     name: Sync S3 Bucket
+      #     command: "aws s3 sync / s3://$S3_BUCKET --delete"
 
 
 
