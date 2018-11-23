@@ -48,7 +48,7 @@ jobs:
 
       - run:
           name: Sync S3 Bucket
-          command: "aws s3 sync functions/*.zip s3://$S3_BUCKET --delete"
+          command: "~/.local/bin/aws s3 sync functions/*.zip s3://$S3_BUCKET --delete"
 
 
 
