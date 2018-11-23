@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Pip install aws cli
-          command: "pip install awscli"
+          command: "pip install awscli --user"
       - run:
           name: Check/Create S3 Bucket
           command: |
