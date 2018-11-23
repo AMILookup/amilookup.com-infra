@@ -10,45 +10,46 @@ jobs:
           command: |
             pip install awscli --user
             pip install aws-sam-cli --user
+            mkdir functions/packed
       - run:
           name: ZIP Lambda Functions
           command: |
             f="ami_lookup"
             cd functions/$f
             pip install -r requirements.txt --target .
-            zip -r9 ../$f.zip .
+            zip -r9 ../packed/$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="api_ami_get"
             cd functions/$f
             pip install -r requirements.txt --target .
-            zip -r9 ../$f.zip .
+            zip -r9 ../packed/$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="cache_schedule_lookup"
             cd functions/$f
             pip install -r requirements.txt --target .
-            zip -r9 ../$f.zip .
+            zip -r9 ../packed/$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="db_read"
             cd functions/$f
             pip install -r requirements.txt --target .
-            zip -r9 ../$f.zip .
+            zip -r9 ../packed/$f.zip .
       - run:
           name: ZIP Lambda Functions
           command: |
             f="db_write"
             cd functions/$f
             pip install -r requirements.txt --target .
-            zip -r9 ../$f.zip .
+            zip -r9 ../packed/$f.zip .
 
       - run:
           name: Sync S3 Bucket
-          command: "~/.local/bin/aws s3 sync functions/*.zip s3://$S3_BUCKET --delete"
+          command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET --delete"
 
 
 
