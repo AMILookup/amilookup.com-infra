@@ -11,19 +11,16 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
-  LambdaKey:
-    Type: String
-    Description: Key for Lambda FunctionName
-  TemplateBucketS3URL:
-    Type: String
-    Description: s3 URL
-    Default: dev-amilookup-artifacts
-  TemplateBucketName:
-    Type: String
-    Description: S3 Bucket Hosting Templates
-  TemplateBucketPrefix:
-    Type: String
-    Description: S3 Templates Bucket Prefix
+  # TemplateBucketS3URL:
+  #   Type: String
+  #   Description: s3 URL
+  #   Default: dev-amilookup-artifacts
+  # TemplateBucketName:
+  #   Type: String
+  #   Description: S3 Bucket Hosting Templates
+  # TemplateBucketPrefix:
+  #   Type: String
+  #   Description: S3 Templates Bucket Prefix
 Resources:
   amilookupFunction:
     # This resource creates a Lambda function.
