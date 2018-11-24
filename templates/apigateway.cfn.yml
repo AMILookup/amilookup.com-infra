@@ -1,0 +1,25 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  env:
+    Type: String
+    Description: Environment Name
+    Default: dev
+  ArtifactsBucket:
+    Type: String
+    Description: Artifacts s3 bucket
+    Default: dev-amilookup-artifacts
+  LambdaKey:
+    Type: String
+    Description: Key for Lambda FunctionName
+  ParentStackName:
+    Type: String
+
+Resources:
+  AmiLookupApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub ${ParentStackName}-api
+      Description: API Used by amilookup
+      Fail

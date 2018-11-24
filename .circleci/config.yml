@@ -2,19 +2,60 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node
+      - image: circleci/python
     steps:
       - checkout
       - run:
           name: install pre-reqs
           command: |
-            sudo npm install -g serverless
-            sudo npm install serverless-domain-manager
+            pip install awscli --user
+            mkdir functions/packed
       - run:
-          name: Deploy ami_lookup using Serverless
+          name: ZIP ami_lookup Functions
           command: |
-            cd functions/ami_lookup
-            sls deploy --stage dev -v
+            f="ami_lookup"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+      - run:
+          name: ZIP api_ami_get Functions
+          command: |
+            f="api_ami_get"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+      - run:
+          name: ZIP cache_schedule_lookup Functions
+          command: |
+            f="cache_schedule_lookup"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+      - run:
+          name: ZIP db_read Functions
+          command: |
+            f="db_read"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+      - run:
+          name: ZIP db_write Functions
+          command: |
+            f="db_write"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+
+      - run:
+          name: Sync S3 Bucket
+          command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
+
+      - run:
+          name: Deploy to CloudFormation
+          command: |
+            # ~/.local/bin/aws cloudformation package --template-file templates/master.cfn.yml --s3-bucket $TEMPLATES_BUCKET  --s3-prefix latest  --output-template-file packaged.json
+            ~/.local/bin/aws cloudformation deploy --template-file templates/amilookup.cfn.yml --stack-name test-stack-name --capabilities CAPABILITY_IAM --region $AWS_REGION
+
 # workflows:
 #   version: 2
 #   build_and_test:
