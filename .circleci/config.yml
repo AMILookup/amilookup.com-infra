@@ -11,9 +11,10 @@ jobs:
             sudo npm install -g serverless
 
       - run:
-          name: Deploy using Serverless
+          name: Deploy ami_lookup using Serverless
           command: |
-            sls deploy -v
+            cd functions/ami_lookup
+            sls deploy --stage dev -v
 # workflows:
 #   version: 2
 #   build_and_test:

@@ -12,7 +12,7 @@
 # Happy Coding!
 
 service: amilookup # NOTE: update this with your service name
-
+stage: dev
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
@@ -57,7 +57,7 @@ provider:
 
 functions:
   ami_lookup:
-    handler: functions/ami_lookup/app.lambda_handler
+    handler: functions/ami_lookup/ami_lookup.lambda_handler
     package:
       include: ami_lookup
 #    The  following are a few example events you can configure

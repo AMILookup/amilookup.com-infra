@@ -1,8 +1,0 @@
-{
-  "Parameters" : {
-    "ArtifactsBucket": "dev-amilookup-artifacts",
-    "Name": "amilookup",
-    "TemplateBucketName": "dev-amilookup-artifacts",
-    "TemplateBucketPrefix": "latest"
-  }
-}
