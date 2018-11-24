@@ -33,7 +33,9 @@ Resources:
       # This is the Lambda function's handler.
       Handler: ami_lookup.lambda_handler
       # The location of the Lambda function code.
-      CodeUri: s3://dev-amilookup-artifacts/functions/ami_lookup.zip
+      CodeUri:
+        Bucket: !Ref TemplateBucketName
+        Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
       # Event sources to attach to this function. In this case, we are attaching
       # one API Gateway endpoint to the Lambda function. The function is
       # called when a HTTP request is made to the API Gateway endpoint.
