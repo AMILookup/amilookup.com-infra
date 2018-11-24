@@ -17,7 +17,7 @@ Parameters:
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL
-    Default:
+    Default: dev-amilookup-artifacts
   TemplateBucketName:
     Type: String
     Description: S3 Bucket Hosting Templates
