@@ -9,7 +9,7 @@ jobs:
           name: install pre-reqs
           command: |
             sudo npm install -g serverless
-
+            sudo npm install serverless-domain-manager
       - run:
           name: Deploy ami_lookup using Serverless
           command: |
