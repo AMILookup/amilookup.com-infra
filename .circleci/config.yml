@@ -54,7 +54,7 @@ jobs:
           name: Deploy to CloudFormation
           command: |
             ~/.local/bin/aws cloudformation package --template-file templates/master.cfn.yml --s3-bucket $TEMPLATES_BUCKET  --s3-prefix latest  --output-template-file packaged.yaml
-            ~/.local/bin/aws cloudformation deploy --template-file packaged.yaml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM
+            ~/.local/bin/aws cloudformation deploy --template-file packaged.yaml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM --region $AWS_REGION
 
 # workflows:
 #   version: 2
