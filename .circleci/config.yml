@@ -8,7 +8,7 @@ jobs:
       - run:
           name: install pre-reqs
           command: |
-            npm install -g serverless
+            sudo npm install -g serverless
 
       - run:
           name: Deploy using Serverless
