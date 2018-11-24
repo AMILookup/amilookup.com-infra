@@ -11,16 +11,18 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
-  # TemplateBucketS3URL:
-  #   Type: String
-  #   Description: s3 URL
-  #   Default: dev-amilookup-artifacts
-  # TemplateBucketName:
-  #   Type: String
-  #   Description: S3 Bucket Hosting Templates
-  # TemplateBucketPrefix:
-  #   Type: String
-  #   Description: S3 Templates Bucket Prefix
+  TemplateBucketS3URL:
+    Type: String
+    Description: s3 URL
+    Default: s3.us-east-1.amazonaws.com
+  TemplateBucketName:
+    Type: String
+    Description: S3 Bucket Hosting Templates
+    Default: dev-amilookup-artifacts
+  TemplateBucketPrefix:
+    Type: String
+    Description: S3 Templates Bucket Prefix
+    Default: functions
 Resources:
   amilookupFunction:
     # This resource creates a Lambda function.
@@ -31,7 +33,7 @@ Resources:
       # This is the Lambda function's handler.
       Handler: ami_lookup.lambda_handler
       # The location of the Lambda function code.
-      CodeUri: ../functions/ami_lookup
+      CodeUri: !Sub s3://${TemplateBucketName}/${TemplateBucketPrefix}/ami_lookup.zip
       # Event sources to attach to this function. In this case, we are attaching
       # one API Gateway endpoint to the Lambda function. The function is
       # called when a HTTP request is made to the API Gateway endpoint.
