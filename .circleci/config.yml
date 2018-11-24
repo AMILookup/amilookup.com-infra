@@ -9,7 +9,6 @@ jobs:
           name: install pre-reqs
           command: |
             pip install awscli --user
-            pip install aws-sam-cli --user
             mkdir functions/packed
       - run:
           name: ZIP ami_lookup Functions
@@ -51,7 +50,11 @@ jobs:
           name: Sync S3 Bucket
           command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
 
-
+      - run:
+          name: Deploy to CloudFormation
+          command: |
+            aws cloudformation package --template-file templates\master.cfn.yml --s3-bucket $TEMPLATES_BUCKET  --s3-prefix latest  --output-template-file packaged.yaml
+            aws cloudformation deploy --template-file packaged.yaml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM
 
 # workflows:
 #   version: 2
