@@ -40,18 +40,13 @@ Resources:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
       Policies:
-        - amilookupFunctionPolicy: {
-            "Statement": [
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:DescribeRegions",
-                  "ec2:DescribeInstances"
-                ],
-                "Resource": "*"
-              }
-            ]
-          }
+        - Statement:
+          - Sid: CheckInstances
+            Effect: Allow
+            Action:
+              - ec2:DescribeRegions
+              - ec2:DescribeInstances
+            Resource: "*"
       Events:
         amilookupApi:
             Type: Api
