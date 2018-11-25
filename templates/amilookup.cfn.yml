@@ -52,7 +52,7 @@ Resources:
             Type: Api
             Properties:
                 Path: /ami
-                Method: GET
+                Method: POST
   dbreadFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
