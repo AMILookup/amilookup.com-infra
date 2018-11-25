@@ -25,5 +25,5 @@ def lambda_handler(event, context):
     print('Starting handler')
     ami = event['query']['ami']
     region = event['query']['region']
-    ami_lookup = ami_lookup(region, ami)
-    return ami_lookup
+    payload = ami_lookup(region, ami)
+    return payload
