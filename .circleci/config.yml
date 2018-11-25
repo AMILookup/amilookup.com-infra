@@ -18,13 +18,6 @@ jobs:
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
       - run:
-          name: ZIP api_ami_get Functions
-          command: |
-            f="api_ami_get"
-            cd functions/$f
-            pip install -r requirements.txt --target .
-            zip -r9 ../packed/$f.zip .
-      - run:
           name: ZIP cache_schedule_lookup Functions
           command: |
             f="cache_schedule_lookup"
