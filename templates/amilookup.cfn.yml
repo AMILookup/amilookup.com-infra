@@ -23,95 +23,18 @@ Parameters:
     Type: String
     Description: S3 Templates Bucket Prefix
     Default: functions
+
 Globals:
   Function:
     Runtime: python3.7
   Api:
     EndpointConfiguration: REGIONAL
     Cors: "'dev.amilookup.com'"
+
 Resources:
-  amilookupApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name:
-      StageName: !Ref env
-      DefinitionBody: |
-        swagger: '2.0'
-        info:
-          description: This is the api for amilookup.com
-          version: 0.0.1
-          title: AMI Lookup API
-          # put the contact info for your development or API team
-          contact:
-            email: dorkmeisterx69@gmail.com
-        
-          license:
-            name: GNU GENERAL PUBLIC LICENSE 3.0
-            url: https://opensource.org/licenses/GPL-3.0
-        
-        # tags are used for organizing operations
-        tags:
-        - name: ami
-          description: For making calls to ami functions
-        - name: db
-          description: For making calls to db functions
-        
-        
-        paths:
-          /ami:
-            get:
-              tags:
-              - ami
-              summary: searches for ami
-              operationId: ami
-              description: |
-                By passing in the appropriate options, you can search against
-                all ami's.
-              produces:
-              - application/json
-              parameters:
-              - in: query
-                name: id
-                description: pass an ami id to search by
-                required: false
-                type: string
-              - in: query
-                name: name
-                description: pass an ami name to search by
-                required: false
-                type: string
-              responses:
-                200:
-                  description: search results matching criteria
-                  schema:
-                    type: array
-                    items:
-                      $ref: '#/definitions/amiItem'
-                400:
-                  description: bad input parameter
-        
-        definitions:
-          amiItem:
-            type: object
-            required:
-            - id
-            - name
-            properties:
-              id:
-                type: string
-                example: ami-12345678
-              name:
-                type: string
-                example: Amazon Linux AMI
-        # Added by API Auto Mocking Plugin
-        host: virtserver.swaggerhub.com
-        basePath: /Jackson-Consulting/Ami-Lookup/1.0.0
-        schemes:
-         - https
   amilookupFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Runtime: python3.7
       Handler: ami_lookup.lambda_handler
       CodeUri:
         Bucket: !Ref TemplateBucketName
@@ -122,3 +45,10 @@ Resources:
             Properties:
                 Path: /ami
                 Method: GET
+  dbreadFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: db_read.lambda_handler
+      CodeUri:
+        Bucket: !Ref TemplateBucketName
+        Key: !Sub ${TemplateBucketPrefix}/db_read.zip
