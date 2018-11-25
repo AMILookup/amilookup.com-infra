@@ -41,6 +41,11 @@ Resources:
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
       Policies:
         - Statement:
+          - Sid: AssumeRole
+            Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource: "*"
           - Sid: CheckInstances
             Effect: Allow
             Action:
