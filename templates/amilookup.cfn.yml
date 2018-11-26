@@ -98,15 +98,12 @@ Resources:
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
       Policies:
         - Statement:
-          - Sid: AssumeRole
-            Effect: Allow
+          - Effect: Allow
             Action:
               - sts:AssumeRole
             Resource: "*"
-          - Sid: CheckInstances
-            Effect: Allow
+          - Effect: Allow
             Action:
-              - ec2:DescribeRegions
               - ec2:DescribeInstances
             Resource: "*"
 
