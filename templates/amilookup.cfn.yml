@@ -113,8 +113,9 @@ Resources:
         amilookupApi:
             Type: Api
             Properties:
-                Path: /ami
-                Method: POST
+              RestApiId: !Ref amilookupApiGateway
+              Path: /ami
+              Method: POST
   dbreadFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
