@@ -40,9 +40,9 @@ Resources:
         swagger: "2.0"
         info:
           version: "1.0"
-          title: "test-stack-name"
+          title: !Sub "${env}-AMILookup"
         host: "oej4dvbi7e.execute-api.us-east-1.amazonaws.com"
-        basePath: "/Prod"
+        basePath: "/"
         schemes:
         - "https"
         paths:
