@@ -96,6 +96,7 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
+      Principal: apigateway.amazonaws.com
       Policies:
         - Statement:
           - Effect: Allow
