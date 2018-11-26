@@ -32,7 +32,7 @@ Globals:
     Cors: "'dev.amilookup.com'"
 
 Resources:
-  amilookupGateway:
+  amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref env
@@ -90,7 +90,8 @@ Resources:
                 type: "mock"
 
   amilookupFunction:
-    Type: 'AWS::Serverless::Function'
+    Type: AWS::Serverless::Function
+    DependsOn: amilookupApiGateway
     Properties:
       Handler: ami_lookup.lambda_handler
       CodeUri:
