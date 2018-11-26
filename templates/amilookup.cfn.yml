@@ -91,7 +91,6 @@ Resources:
 
   amilookupFunction:
     Type: AWS::Serverless::Function
-    DependsOn: amilookupApiGateway
     Properties:
       Handler: ami_lookup.lambda_handler
       CodeUri:
@@ -110,13 +109,7 @@ Resources:
               - ec2:DescribeRegions
               - ec2:DescribeInstances
             Resource: "*"
-      Events:
-        amilookupApi:
-            Type: Api
-            Properties:
-              RestApiId: !Ref amilookupApiGateway
-              Path: /ami
-              Method: POST
+
   dbreadFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
