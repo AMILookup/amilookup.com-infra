@@ -21,9 +21,22 @@ def ami_lookup(region, ami):
                         'image_type': image.image_type,
                         'platform': image.platform
                       })
+# def lambda_handler(event, context):
+#     print('Starting handler')
+#     ami = event['query']['ami']
+#     region = event['query']['region']
+#     payload = ami_lookup(region, ami)
+#     return payload
 def lambda_handler(event, context):
-    print('Starting handler')
-    ami = event['query']['ami']
-    region = event['query']['region']
-    payload = ami_lookup(region, ami)
-    return payload
+    print("Got event\n" + json.dumps(event, indent=2))
+    response = {}
+    ami = event['ami']
+    region = event['region']
+    response = ami_lookup(region, ami)
+
+    return {
+        'isBase64Encoded': "false",
+        'statusCode': 200,
+        'headers': { 'Content-Type': 'application/json' },
+        'body': json.loads(response)
+    }
