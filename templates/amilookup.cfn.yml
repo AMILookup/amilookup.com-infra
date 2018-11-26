@@ -107,7 +107,7 @@ Resources:
             Resource: "*"
           - Effect: Allow
             Action:
-              - ec2:DescribeInstances
+              - ec2:Describe*
             Resource: "*"
   amilookupFunctionPermissions:
     Type: AWS::Lambda::Permission
