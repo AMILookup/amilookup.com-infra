@@ -96,7 +96,6 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
-      Principal: apigateway.amazonaws.com
       Policies:
         - Statement:
           - Effect: Allow
@@ -107,7 +106,12 @@ Resources:
             Action:
               - ec2:DescribeInstances
             Resource: "*"
-
+  amilookupFunctionPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref amilookupFunction
+      Principal: apigateway.amazonaws.com
   dbreadFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
