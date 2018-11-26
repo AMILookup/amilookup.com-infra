@@ -41,7 +41,7 @@ Resources:
         info:
           version: "1.0"
           title: !Sub "${env}-AMILookup"
-        host: "oej4dvbi7e.execute-api.us-east-1.amazonaws.com"
+        host: !Sub "apigateway.${AWS::Region}.amazonaws.com"
         basePath: "/"
         schemes:
         - "https"
@@ -62,33 +62,43 @@ Resources:
                 httpMethod: "POST"
                 contentHandling: "CONVERT_TO_TEXT"
                 type: "aws"
-            options:
-              consumes:
-              - "application/json"
-              produces:
-              - "application/json"
-              responses:
-                '200':
-                  description: "200 response"
-                  headers:
-                    Access-Control-Allow-Origin:
-                      type: "string"
-                    Access-Control-Allow-Methods:
-                      type: "string"
-              x-amazon-apigateway-integration:
+             options:
+                summary: CORS support
+                description: |
+                  Enable CORS by returning correct headers
+                consumes:
+                  - application/json
+                produces:
+                  - application/json
+                tags:
+                  - CORS
+                x-amazon-apigateway-integration:
+                  type: mock
+                  requestTemplates:
+                    application/json: |
+                      {
+                        "statusCode" : 200
+                      }
+                  responses:
+                    "default":
+                      statusCode: "200"
+                      responseParameters:
+                        method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                        method.response.header.Access-Control-Allow-Methods : "'*'"
+                        method.response.header.Access-Control-Allow-Origin : "'*'"
+                      responseTemplates:
+                        application/json: |
+                          {}
                 responses:
-                  default:
-                    statusCode: "200"
-                    responseParameters:
-                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
-                      method.response.header.Access-Control-Allow-Origin: "'dev.amilookup.com'"
-                    responseTemplates:
-                      application/json: "{}\n"
-                passthroughBehavior: "when_no_match"
-                requestTemplates:
-                  application/json: "{\n  \"statusCode\" : 200\n}\n"
-                type: "mock"
-
+                  200:
+                    description: Default response for CORS method
+                    headers:
+                      Access-Control-Allow-Headers:
+                        type: "string"
+                      Access-Control-Allow-Methods:
+                        type: "string"
+                      Access-Control-Allow-Origin:
+                        type: "string"
   amilookupFunction:
     Type: AWS::Serverless::Function
     Properties:
