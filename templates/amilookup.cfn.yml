@@ -100,7 +100,7 @@ Resources:
       Timeout: 15
       Policies:
         - Version: "2012-10-17"
-        - Statement:
+          Statement:
           - Effect: Allow
             Action:
               - sts:AssumeRole
