@@ -96,6 +96,8 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
+      MemorySize: 128
+      Timeout: 15
       Policies:
         - Statement:
           - Effect: Allow
