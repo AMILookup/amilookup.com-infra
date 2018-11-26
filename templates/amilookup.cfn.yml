@@ -37,56 +37,51 @@ Resources:
     Properties:
       StageName: !Ref env
       DefinitionBody: |
+        ---
         swagger: "2.0"
         info:
-          description: "This is the api for amilookup.com"
-          version: "0.0.1"
-          title: "AMI Lookup API"
-          contact:
-            email: "dorkmeisterx69@gmail.com"
-          license:
-            name: "GNU GENERAL PUBLIC LICENSE 3.0"
-            url: "https://opensource.org/licenses/GPL-3.0"
-        host: "virtserver.swaggerhub.com"
-        basePath: "/Jackson-Consulting/Ami-Lookup/1.0.0"
-        tags:
-        - name: "ami"
-          description: "For making calls to ami functions"
-        - name: "db"
-          description: "For making calls to db functions"
+          version: "1.0"
+          title: "test-stack-name"
+        host: "oej4dvbi7e.execute-api.us-east-1.amazonaws.com"
+        basePath: "/Prod"
         schemes:
         - "https"
         paths:
           /ami:
-            get:
-              tags:
-              - "ami"
-              summary: "searches for ami"
-              description: "By passing in the appropriate options, you can search against\n\
-                all ami's.\n"
-              operationId: "ami"
+            post:
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:124775650587:function:test-stack-name-amilookupFunction-1NTVURWZQOWNJ/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+            options:
+              consumes:
+              - "application/json"
               produces:
               - "application/json"
-              parameters:
-              - name: "id"
-                in: "query"
-                description: "pass an ami id to search by"
-                required: false
-                type: "string"
-              - name: "name"
-                in: "query"
-                description: "pass an ami name to search by"
-                required: false
-                type: "string"
               responses:
                 200:
-                  description: "search results matching criteria"
-                  schema:
-                    type: "array"
-                    items:
-                      $ref: "#/definitions/amiItem"
-                400:
-                  description: "bad input parameter"
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+                      method.response.header.Access-Control-Allow-Origin: "'dev.amilookup.com'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+        
         definitions:
           amiItem:
             type: "object"
