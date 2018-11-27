@@ -36,7 +36,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName: "AMIId"
+        - AttributeName: "ImageId"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "AMIId"
@@ -45,20 +45,12 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
       LocalSecondaryIndexes:
-        -
-          IndexName: "DescriptionLSI"
-          KeySchema: 
-            -
-              AttributeName: "Description"
+        - IndexName: "DescriptionLSI"
+          KeySchema:
+            - AttributeName: "Description"
               KeyType: "HASH"
-            -
-              AttributeName: "CreateTimestamp"
+            - AttributeName: "CreateTimestamp"
               KeyType: "RANGE"
-          Projection:
-            NonKeyAttributes:
-              - "Artist"
-              - "NumberOfSongs"
-            ProjectionType: "INCLUDE"
   amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
@@ -117,7 +109,7 @@ Resources:
                     application/json: |
                       {}
             responses:
-              200:
+              "200":
                 description: Default response for CORS method
                 headers:
                   Access-Control-Allow-Headers:

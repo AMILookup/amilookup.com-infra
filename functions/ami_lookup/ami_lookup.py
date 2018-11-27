@@ -12,21 +12,27 @@ def ami_lookup(region, ami):
     print('Image loaded')
     print(image.name)
 
-    return json.dumps({ 'id': ami,
-                        'ami': image.name,
-                        'description': image.description,
-                        'owner': image.image_owner_alias,
-                        'owner2': image.owner_id,
-                        'state': image.state,
-                        'image_type': image.image_type,
-                        'platform': image.platform
-                      })
-# def lambda_handler(event, context):
-#     print('Starting handler')
-#     ami = event['query']['ami']
-#     region = event['query']['region']
-#     payload = ami_lookup(region, ami)
-#     return payload
+    return json.dumps({
+        "VirtualizationType": image.virtualization_type,
+        "Description": image.description,
+        "Hypervisor": image.hypervisor,
+        "ImageOwnerAlias": image.image_owner_alias,
+        "EnaSupport": image.ena_support,
+        "SriovNetSupport": image.sriov_net_support,
+        "ImageId": image.image_id,
+        "State": image.state,
+        "BlockDeviceMappings": image.block_device_mappings,
+        "Architecture": image.architecture,
+        "ImageLocation": image.image_location,
+        "RootDeviceType": image.root_device_type,
+        "OwnerId": image.owner_id,
+        "RootDeviceName": image.root_device_name,
+        "CreationDate": image.creation_date,
+        "Public": image.public,
+        "ImageType": image.image_type,
+        "Name": image.name
+    })
+
 def lambda_handler(event, context):
     print("Got event\n" + json.dumps(event, indent=2))
     response = {}
