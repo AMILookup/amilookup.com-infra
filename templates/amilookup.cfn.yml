@@ -51,8 +51,8 @@ Resources:
               KeyType: "HASH"
             - AttributeName: "CreateTimestamp"
               KeyType: "RANGE"
-      Projection:
-        ProjectionType: ALL
+          Projection:
+            ProjectionType: ALL
   amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
