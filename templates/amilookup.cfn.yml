@@ -55,8 +55,6 @@ Resources:
           KeySchema:
             - AttributeName: "ImageId"
               KeyType: "HASH"
-            - AttributeName: "Description"
-              KeyType: "Hash"
             - AttributeName: "CreateTimestamp"
               KeyType: "RANGE"
           Projection:
