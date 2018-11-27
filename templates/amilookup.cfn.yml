@@ -38,6 +38,10 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "ImageId"
           AttributeType: "S"
+        - AttributeName: "Description"
+          AttributeType: "S"
+        - AttributeName: "CreateTimestamp"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "ImageId"
           KeyType: "HASH"
