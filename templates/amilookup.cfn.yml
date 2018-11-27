@@ -39,7 +39,7 @@ Resources:
         - AttributeName: "ImageId"
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "AMIId"
+        - AttributeName: "ImageId"
           KeyType: "HASH"
       ProvisionedThroughput:
         ReadCapacityUnits: 5
