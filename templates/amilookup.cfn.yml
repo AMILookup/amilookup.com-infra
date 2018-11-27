@@ -53,8 +53,10 @@ Resources:
       LocalSecondaryIndexes:
         - IndexName: "DescriptionLSI"
           KeySchema:
-            - AttributeName: "Description"
+            - AttributeName: "ImageId"
               KeyType: "HASH"
+            - AttributeName: "Description"
+              KeyType: "Hash"
             - AttributeName: "CreateTimestamp"
               KeyType: "RANGE"
           Projection:
