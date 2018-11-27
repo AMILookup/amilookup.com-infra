@@ -32,6 +32,33 @@ Globals:
     Cors: "'dev.amilookup.com'"
 
 Resources:
+  cacheTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "AMIId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "AMIId"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      LocalSecondaryIndexes:
+        -
+          IndexName: "DescriptionLSI"
+          KeySchema: 
+            -
+              AttributeName: "Description"
+              KeyType: "HASH"
+            -
+              AttributeName: "CreateTimestamp"
+              KeyType: "RANGE"
+          Projection:
+            NonKeyAttributes:
+              - "Artist"
+              - "NumberOfSongs"
+            ProjectionType: "INCLUDE"
   amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
