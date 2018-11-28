@@ -38,19 +38,36 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "ImageId"
           AttributeType: "S"
+        - AttributeName: "Description"
+          AttributeType: "S"
+        - AttributeName: "CreateTimestamp"
+          AttributeType: "S"
       KeySchema:
-        - AttributeName: "AMIId"
+        - AttributeName: "ImageId"
           KeyType: "HASH"
+        - AttributeName: "CreateTimestamp"
+          KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
       LocalSecondaryIndexes:
-        - IndexName: "DescriptionLSI"
+        - IndexName: "ImageId"
           KeySchema:
-            - AttributeName: "Description"
+            - AttributeName: "ImageId"
               KeyType: "HASH"
             - AttributeName: "CreateTimestamp"
               KeyType: "RANGE"
+          Projection:
+            ProjectionType: ALL
+      LocalSecondaryIndexes:
+        - IndexName: "Description"
+          KeySchema:
+            - AttributeName: "ImageId"
+              KeyType: "HASH"
+            - AttributeName: "Description"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: ALL
   amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
