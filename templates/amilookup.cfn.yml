@@ -32,42 +32,42 @@ Globals:
     Cors: "'dev.amilookup.com'"
 
 Resources:
-  cacheTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "ImageId"
-          AttributeType: "S"
-        - AttributeName: "Description"
-          AttributeType: "S"
-        - AttributeName: "CreateTimestamp"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "ImageId"
-          KeyType: "HASH"
-        - AttributeName: "CreateTimestamp"
-          KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      LocalSecondaryIndexes:
-        - IndexName: "ImageId"
-          KeySchema:
-            - AttributeName: "ImageId"
-              KeyType: "HASH"
-            - AttributeName: "CreateTimestamp"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: ALL
-      LocalSecondaryIndexes:
-        - IndexName: "Description"
-          KeySchema:
-            - AttributeName: "ImageId"
-              KeyType: "HASH"
-            - AttributeName: "Description"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: ALL
+  # cacheTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     AttributeDefinitions:
+  #       - AttributeName: "ImageId"
+  #         AttributeType: "S"
+  #       - AttributeName: "Description"
+  #         AttributeType: "S"
+  #       - AttributeName: "CreateTimestamp"
+  #         AttributeType: "S"
+  #     KeySchema:
+  #       - AttributeName: "ImageId"
+  #         KeyType: "HASH"
+  #       - AttributeName: "CreateTimestamp"
+  #         KeyType: "RANGE"
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
+  #     LocalSecondaryIndexes:
+  #       - IndexName: "ImageId"
+  #         KeySchema:
+  #           - AttributeName: "ImageId"
+  #             KeyType: "HASH"
+  #           - AttributeName: "CreateTimestamp"
+  #             KeyType: "RANGE"
+  #         Projection:
+  #           ProjectionType: ALL
+  #     LocalSecondaryIndexes:
+  #       - IndexName: "Description"
+  #         KeySchema:
+  #           - AttributeName: "ImageId"
+  #             KeyType: "HASH"
+  #           - AttributeName: "Description"
+  #             KeyType: "RANGE"
+  #         Projection:
+  #           ProjectionType: ALL
   amilookupApiGateway:
     Type: AWS::Serverless::Api
     Properties:
@@ -153,7 +153,16 @@ Resources:
             Resource: "*"
           - Effect: Allow
             Action:
-              - ec2:Describe*
+              - logs:*
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+            Resource: "arn:aws:s3:::*"
+          - Effect: Allow
+            Action:
+              - ec2:DescribeImages
             Resource: "*"
   amilookupFunctionPermissions:
     Type: AWS::Lambda::Permission
@@ -161,10 +170,3 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !Ref amilookupFunction
       Principal: apigateway.amazonaws.com
-  dbreadFunction:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: db_read.lambda_handler
-      CodeUri:
-        Bucket: !Ref TemplateBucketName
-        Key: !Sub ${TemplateBucketPrefix}/db_read.zip
