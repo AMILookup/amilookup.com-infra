@@ -17,27 +17,6 @@ jobs:
             cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
-      - run:
-          name: ZIP cache_schedule_lookup Functions
-          command: |
-            f="cache_schedule_lookup"
-            cd functions/$f
-            pip install -r requirements.txt --target .
-            zip -r9 ../packed/$f.zip .
-      - run:
-          name: ZIP db_read Functions
-          command: |
-            f="db_read"
-            cd functions/$f
-            pip install -r requirements.txt --target .
-            zip -r9 ../packed/$f.zip .
-      - run:
-          name: ZIP db_write Functions
-          command: |
-            f="db_write"
-            cd functions/$f
-            pip install -r requirements.txt --target .
-            zip -r9 ../packed/$f.zip .
 
       - run:
           name: Sync S3 Bucket

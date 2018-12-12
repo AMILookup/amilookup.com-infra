@@ -142,6 +142,7 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
+      AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
       Policies:
@@ -162,7 +163,7 @@ Resources:
             Resource: "arn:aws:s3:::*"
           - Effect: Allow
             Action:
-              - ec2:DescribeImages
+              - ec2:DescribeImage*
             Resource: "*"
   amilookupFunctionPermissions:
     Type: AWS::Lambda::Permission
