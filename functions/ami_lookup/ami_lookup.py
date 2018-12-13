@@ -1,7 +1,6 @@
 import boto3
 import json
 
-#This is a test change.
 def ami_lookup(region, ami):
     print('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
@@ -57,8 +56,7 @@ def lambda_handler(event, context):
         'isBase64Encoded': "false",
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'application/json' ,
-            'Access-Control-Allow-Origin': 'dev.amilookup.com'
+            'Content-Type': 'application/json'
         },
         'body': json.loads(response)
     }
