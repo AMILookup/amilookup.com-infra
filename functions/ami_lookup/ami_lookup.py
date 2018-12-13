@@ -56,6 +56,9 @@ def lambda_handler(event, context):
     return {
         'isBase64Encoded': "false",
         'statusCode': 200,
-        'headers': { 'Content-Type': 'application/json' },
+        'headers': {
+            'Content-Type': 'application/json' ,
+            'Access-Control-Allow-Origin': 'dev.amilookup.com'
+        },
         'body': json.loads(response)
     }
