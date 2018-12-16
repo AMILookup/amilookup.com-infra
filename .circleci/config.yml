@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Deploy to CloudFormation
           command: |
-            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml --stack-name $STACK_NAME --capabilities CAPABILITY_AUTO_EXPAND --region $AWS_REGION --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix
+            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --region $AWS_REGION --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix
 
 # workflows:
 #   version: 2
