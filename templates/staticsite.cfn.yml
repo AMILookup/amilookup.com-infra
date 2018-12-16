@@ -48,6 +48,10 @@ Parameters:
     Default: 5
     Type: Number
 
+  ParentStackName:
+    Type: String
+    Description: Parent CloudFormation Stack Name
+    
   PriceClass:
     Description: "Distribution price class. Default is US-only, PriceClass_All is worldwide but more expensive."
     Default: PriceClass_100
