@@ -13,7 +13,7 @@ Parameters:
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL
-    Default: s3.us-east-1.amazonaws.com
+    Default: https://s3.us-east-1.amazonaws.com
   TemplateBucketName:
     Type: String
     Description: S3 Bucket Hosting Templates
@@ -28,7 +28,7 @@ Resources:
   amilookupStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', templates/amilookup.cfn.yml]]
+      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', !Ref 'TemplateBucketPrefix', amilookup.cfn.yml]]
       Parameters:
         ParentStackName: !Ref "AWS::StackName"
         env: !Ref env
