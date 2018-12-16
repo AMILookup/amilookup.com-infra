@@ -24,7 +24,7 @@ jobs:
 
       - run:
           name: Sync templates to S3 Bucket
-          command: "~/.local/bin/aws s3 sync templates/latest s3://$S3_BUCKET/templates --delete"
+          command: "~/.local/bin/aws s3 sync templates s3://$S3_BUCKET/templates --delete"
 
       - run:
           name: Deploy to CloudFormation
