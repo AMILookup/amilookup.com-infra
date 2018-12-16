@@ -28,7 +28,7 @@ Resources:
   amilookupStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Join [/, 'TemplateBucketS3URL', !Ref 'TemplateBucketName', templates/amilookup.cfn.yml]
+      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', templates/amilookup.cfn.yml]]
       Parameters:
         ParentStackName: !Ref "AWS::StackName"
         env: !Ref env
