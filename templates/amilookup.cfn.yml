@@ -15,6 +15,9 @@ Parameters:
     Type: String
     Description: WebsiteURL for CORS
     Default: dev.amilookup.com
+  ParentStackName:
+    Type: String
+    Description: Parent CloudFormation Stack Name
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL

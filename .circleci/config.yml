@@ -19,14 +19,17 @@ jobs:
             zip -r9 ../packed/$f.zip .
 
       - run:
-          name: Sync S3 Bucket
+          name: Sync functions to S3 Bucket
           command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
+
+      - run:
+          name: Sync templates to S3 Bucket
+          command: "~/.local/bin/aws s3 sync templates/latest s3://$S3_BUCKET/templates --delete"
 
       - run:
           name: Deploy to CloudFormation
           command: |
-            # ~/.local/bin/aws cloudformation package --template-file templates/master.cfn.yml --s3-bucket $TEMPLATES_BUCKET  --s3-prefix latest  --output-template-file packaged.json
-            ~/.local/bin/aws cloudformation deploy --template-file templates/amilookup.cfn.yml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM --region $AWS_REGION
+            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM --region $AWS_REGION --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix
 
 # workflows:
 #   version: 2

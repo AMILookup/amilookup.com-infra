@@ -10,23 +10,30 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
-  LambdaKey:
-    Type: String
-    Description: Key for Lambda FunctionName
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL
-    Default:
+    Default: s3.us-east-1.amazonaws.com
   TemplateBucketName:
     Type: String
     Description: S3 Bucket Hosting Templates
   TemplateBucketPrefix:
     Type: String
     Description: S3 Templates Bucket Prefix
+  WebsiteUrl:
+    Type: String
+    Description: URL of Site
+    Default: dev.amilookup.com
 Resources:
   amilookupStack:
-   Type: AWS::CloudFormation::Stack
-   Properties:
-     TemplateURL: !Join [/, 'TemplateBucketS3URL', !Ref 'TemplateBucketName', templates/ami_lookup.cfn.yml]
-     Parameters:
-       ParentStackName: !Ref "AWS::StackName"
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join [/, 'TemplateBucketS3URL', !Ref 'TemplateBucketName', templates/amilookup.cfn.yml]
+      Parameters:
+        ParentStackName: !Ref "AWS::StackName"
+        env: !Ref env
+        ArtifactsBucket: !Ref ArtifactsBucket
+        WebsiteUrl: !Ref WebsiteUrl
+        TemplateBucketS3URL: !Ref TemplateBucketS3URL
+        TemplateBucketName: !Ref TemplateBucketName
+        TemplateBucketPrefix: !Ref TemplateBucketPrefix
