@@ -25,6 +25,10 @@ Metadata:
           - DefaultTTL
 
 Parameters:
+  env:
+    Type: String
+    Description: Environment Name
+    Default: dev
   # Domain: example.com
   DomainName:
     Type: String
@@ -37,7 +41,7 @@ Parameters:
   DefaultTTL:
     Type: Number
     Description: "TTL in seconds"
-    Default: 30
+    Default: 5
 
   MinimumTTL:
     Description: "Minimum cache lifetime in seconds for the CloudFront distribution"
@@ -53,10 +57,10 @@ Parameters:
       - PriceClass_All
     Type: String
 
-  PreExistingHostedZoneDomain:
-    Description: "Optional domain name for pre-existing Route 53 hosted zone."
+  WebsiteUrl:
     Type: String
-    Default: ""
+    Description: URL of Site
+    Default: dev.amilookup.com
 
 Mappings:
   RegionMap:
@@ -202,7 +206,7 @@ Resources:
   Route53RecordSetGroup:
     Type: "AWS::Route53::RecordSetGroup"
     Properties:
-      HostedZoneName: !Ref PreExistingHostedZoneDomain
+      HostedZoneName: !Ref WebsiteUrl
       RecordSets:
         # example.com
         - Name: !Sub "${DomainName}."

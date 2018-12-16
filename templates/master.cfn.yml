@@ -10,6 +10,14 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
+  PriceClass:
+    Description: "Distribution price class. Default is US-only, PriceClass_All is worldwide but more expensive."
+    Default: PriceClass_100
+    AllowedValues:
+      - PriceClass_100
+      - PriceClass_200
+      - PriceClass_All
+    Type: String
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL
@@ -37,3 +45,13 @@ Resources:
         TemplateBucketS3URL: !Ref TemplateBucketS3URL
         TemplateBucketName: !Ref TemplateBucketName
         TemplateBucketPrefix: functions
+  staticsiteStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', !Ref 'TemplateBucketPrefix', staticsite.cfn.yml]]
+      Parameters:
+        ParentStackName: !Ref "AWS::StackName"
+        env: !Ref env
+        DomainName: !Ref WebsiteUrl
+        PriceClass: !Ref PriceClass
+        WebsiteUrl: !Ref WebsiteUrl
