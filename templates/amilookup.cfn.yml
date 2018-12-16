@@ -21,15 +21,12 @@ Parameters:
   TemplateBucketS3URL:
     Type: String
     Description: s3 URL
-    Default: s3.us-east-1.amazonaws.com
   TemplateBucketName:
     Type: String
     Description: S3 Bucket Hosting Templates
-    Default: dev-amilookup-artifacts
   TemplateBucketPrefix:
     Type: String
     Description: S3 Templates Bucket Prefix
-    Default: functions
 
 Globals:
   Function:

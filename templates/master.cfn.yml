@@ -36,4 +36,4 @@ Resources:
         WebsiteUrl: !Ref WebsiteUrl
         TemplateBucketS3URL: !Ref TemplateBucketS3URL
         TemplateBucketName: !Ref TemplateBucketName
-        TemplateBucketPrefix: !Ref TemplateBucketPrefix
+        TemplateBucketPrefix: functions
