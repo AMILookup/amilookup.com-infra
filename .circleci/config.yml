@@ -13,6 +13,7 @@ jobs:
       - run:
           name: ZIP ami_lookup Functions
           command: |
+            #!/bin/bash
             readlink -f $(which sh)
             export COMMIT=${CIRCLE_SHA1:0:7}
             f="ami_lookup"
