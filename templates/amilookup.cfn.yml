@@ -179,3 +179,6 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !Ref amilookupFunction
       Principal: apigateway.amazonaws.com
+Outputs:
+  amilookupFunction:
+    Value: !Ref amilookupFunction
