@@ -16,7 +16,7 @@ jobs:
             echo $SHELL
             export COMMIT=${CIRCLE_SHA1:0:7}
             f="ami_lookup"
-            f2=${$f_$COMMIT}
+            f2=$f_$COMMIT
             echo $f2
             cd functions/$f
             pip install -r requirements.txt --target .
