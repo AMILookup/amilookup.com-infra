@@ -13,7 +13,7 @@ jobs:
       - run:
           name: get commit id
           command: |
-            export COMMIT=${CIRCLE_SHA1:0:8}
+            export COMMIT=${CIRCLE_SHA1:0:7}
             echo $COMMIT
       - run:
           name: ZIP ami_lookup Functions
@@ -22,7 +22,7 @@ jobs:
             cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
-
+            cp ../packed/$f.zip ../packed/$f_$COMMIT.zip
       - run:
           name: Sync functions to S3 Bucket
           command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
