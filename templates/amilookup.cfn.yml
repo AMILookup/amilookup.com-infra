@@ -149,7 +149,7 @@ Resources:
       Handler: ami_lookup.lambda_handler
       CodeUri:
         Bucket: !Ref TemplateBucketName
-        Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}.zip
+        Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
       AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
