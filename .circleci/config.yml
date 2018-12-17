@@ -16,12 +16,12 @@ jobs:
             echo $SHELL
             export COMMIT=${CIRCLE_SHA1:0:7}
             f="ami_lookup"
-            f2="$f_$COMMIT"
+            f2="{$f}_$COMMIT"
             echo $f2
             cd functions/$f
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
-            cp ../packed/$f.zip ../packed/$f2zip
+            cp ../packed/$f.zip ../packed/$f2.zip
             ls -la ../packed
       - run:
           name: Sync functions to S3 Bucket
