@@ -37,8 +37,8 @@ jobs:
       - run:
           name: Deploy lambda Version
           command: |
-            aws cloudformation describe-stacks | grep -o '"StackName": "[^"]*' | grep -o "$STACK_NAME.*"
-            # aws lambda publish-version --function-name ${functionName} --region $AWS_REGION
+            ~/.local/bin/aws cloudformation describe-stacks | grep -o '"StackName": "[^"]*' | grep -o "$STACK_NAME.*"
+            # ~/.local/bin/aws lambda publish-version --function-name ${functionName} --region $AWS_REGION
 # workflows:
 #   version: 2
 #   build_and_test:
