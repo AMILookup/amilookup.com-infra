@@ -11,13 +11,9 @@ jobs:
             pip install awscli --user
             mkdir functions/packed
       - run:
-          name: get commit id
-          command: |
-            export COMMIT=${CIRCLE_SHA1:0:7}
-            echo $COMMIT
-      - run:
           name: ZIP ami_lookup Functions
           command: |
+            export COMMIT=${CIRCLE_SHA1:0:7}
             echo $COMMIT
             f="ami_lookup"
             cd functions/$f
