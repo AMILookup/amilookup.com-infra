@@ -13,8 +13,7 @@ jobs:
       - run:
           name: get commit id
           command: |
-            git rev-parse HEAD > .git/commitID
-            COMMIT=$(readFile('.git/commitID').trim())
+            COMMIT=${CIRCLE_SHA1:0:8}
             echo COMMIT
       - run:
           name: ZIP ami_lookup Functions
