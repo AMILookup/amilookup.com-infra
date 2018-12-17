@@ -7,6 +7,10 @@ Parameters:
     Type: String
     Description: Environment Name
     Default: dev
+  amilookupFunctionKey:
+    Type: String
+    Description: Key for s3 object for this function.
+    Default: ami_lookup.zip
   ArtifactsBucket:
     Type: String
     Description: Artifacts s3 bucket
@@ -145,7 +149,7 @@ Resources:
       Handler: ami_lookup.lambda_handler
       CodeUri:
         Bucket: !Ref TemplateBucketName
-        Key: !Sub ${TemplateBucketPrefix}/ami_lookup.zip
+        Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}.zip
       AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
