@@ -98,7 +98,7 @@ Resources:
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
-        ErrorDocument: error.html
+        ErrorDocument: 404.html
       # logs.example.com/logs/s3/example.com/
       LoggingConfiguration:
         DestinationBucketName: !Ref LogsBucket
