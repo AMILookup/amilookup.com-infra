@@ -23,6 +23,7 @@ jobs:
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
             cp ../packed/$f.zip ../packed/$f_$COMMIT.zip
+            ll ../packed
       - run:
           name: Sync functions to S3 Bucket
           command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
