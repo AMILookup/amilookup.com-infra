@@ -40,7 +40,8 @@ jobs:
             export COMMIT=${CIRCLE_SHA1:0:7}
             amilookupstackname=`~/.local/bin/aws cloudformation describe-stacks --region $AWS_REGION | grep -o '"StackName": "[^"]*' | grep -o "$STACK_NAME.*amilookupStack.*"`
             echo $amilookupstackname
-            amilookupfunctionname=`~/.local/bin/aws cloudformation describe-stacks --stack-name $amilookupstackname --region $AWS_REGION --query 'Stacks[0].Outputs[?OutputKey==`amilookupFunction`].OutputValue' --output text`
+            ~/.local/bin/aws cloudformation describe-stacks --stack-name $amilookupstackname --region $AWS_REGION --query 'Stacks[0].Outputs[?OutputKey==`amilookupFunction`].OutputValue' --output text > amilookupfunctionname.txt
+            amilookupfunctionname=$(cat amilookupfunctionname.txt)
             echo $amilookupfunctionname
             ~/.local/bin/aws lambda update-function-code --function-name $amilookupfunctionname --s3-bucket $S3_BUCKET --s3-key functions/ami_lookup_$COMMIT.zip --region $AWS_REGION
 # workflows:
