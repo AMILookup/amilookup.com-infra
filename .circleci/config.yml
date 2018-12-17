@@ -13,8 +13,8 @@ jobs:
       - run:
           name: get commit id
           command: |
-            COMMIT=${CIRCLE_SHA1:0:8}
-            echo COMMIT
+            export COMMIT=${CIRCLE_SHA1:0:8}
+            echo $COMMIT
       - run:
           name: ZIP ami_lookup Functions
           command: |
