@@ -51,7 +51,7 @@ Parameters:
   ParentStackName:
     Type: String
     Description: Parent CloudFormation Stack Name
-    
+
   PriceClass:
     Description: "Distribution price class. Default is US-only, PriceClass_All is worldwide but more expensive."
     Default: PriceClass_100
@@ -165,8 +165,10 @@ Resources:
           Bucket: !Join ["", [!Ref LogsBucket, ".s3.amazonaws.com"]]
           Prefix: !Sub "logs/cloudfront/${DomainName}/"
           IncludeCookies: false
+        HttpVersion: http2
         ViewerCertificate:
           AcmCertificateArn: !Ref Certificate
+          MinimumProtocolVersion: TLSv1.2_2018
           SslSupportMethod: sni-only
 
   # CDN serves S3 content over HTTPS for www.example.com
@@ -203,14 +205,16 @@ Resources:
           Bucket: !Join ["", [!Ref LogsBucket, ".s3.amazonaws.com"]]
           Prefix: !Sub "logs/cloudfront/www.${DomainName}/"
           IncludeCookies: false
+        HttpVersion: http2
         ViewerCertificate:
           AcmCertificateArn: !Ref Certificate
+          MinimumProtocolVersion: TLSv1.2_2018
           SslSupportMethod: sni-only
 
   Route53RecordSetGroup:
     Type: "AWS::Route53::RecordSetGroup"
     Properties:
-      HostedZoneName: !Ref WebsiteUrl
+      HostedZoneName: !Sub "${WebsiteUrl}."
       RecordSets:
         # example.com
         - Name: !Sub "${DomainName}."
