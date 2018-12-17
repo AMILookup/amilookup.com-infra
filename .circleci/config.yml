@@ -11,6 +11,12 @@ jobs:
             pip install awscli --user
             mkdir functions/packed
       - run:
+          name: get commit id
+          command: |
+            git rev-parse HEAD > .git/commitID
+            COMMIT=$(readFile('.git/commitID').trim())
+            echo COMMIT
+      - run:
           name: ZIP ami_lookup Functions
           command: |
             f="ami_lookup"
