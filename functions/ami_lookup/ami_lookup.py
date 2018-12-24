@@ -69,12 +69,12 @@ def lambda_handler(event, context):
     region = event['region']
     try:
         if ami == "":
-            return event_return(500, "AMIId missing")
+            return event_return(500, {"ErrorMessage": "AMIId missing"})
         else:
             response = ami_lookup(region, ami)
     except ClientError as e: 
         if e.response['Error']['Code'] == 'InvalidAMIID.Malformed':
-            return event_return(500, "AMIId is Malformed")
+            return event_return(500, {"ErrorMessage": "AMIId is Malformed"})
         else:
-            return event_return(500, "Unexpected Error")
+            return event_return(500, {"ErrorMessage": "Unexpected Error")}
     return event_return(200, json.loads(response))
