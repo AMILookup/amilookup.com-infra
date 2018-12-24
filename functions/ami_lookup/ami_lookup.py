@@ -6,6 +6,16 @@ import sys
 def throws():
     raise RuntimeError('The function failed for some reason.')
 
+def event_return(statusCode, body):
+    response = {
+        'isBase64Encoded': "false",
+        'statusCode': statusCode,
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': body
+    }
+    return response
 
 def ami_lookup(region, ami):
     print('Starting Function')
@@ -58,25 +68,13 @@ def lambda_handler(event, context):
     ami = event['ami']
     region = event['region']
     try:
-        response = ami_lookup(region, ami)
+        if ami == "":
+            return event_return(500, "AMIId missing")
+        else:
+            response = ami_lookup(region, ami)
     except ClientError as e: 
         if e.response['Error']['Code'] == 'InvalidAMIID.Malformed':
-            print("AMIId is Malformed")
-        return {
-            'isBase64Encoded': "false",
-            'statusCode': 500,
-            'headers': {
-                'Content-Type': 'application/json'
-            },
-            'body': "AMIId is Malformed"
-    }
+            return event_return(500, "AMIId is Malformed")
     else:
-        print("Unexpected error: %s" % e)
-    return {
-        'isBase64Encoded': "false",
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/json'
-        },
-        'body': json.loads(response)
-    }
+        return event_return(500, "Unexpected Error")
+    return event_return(200, json.loads(response))
