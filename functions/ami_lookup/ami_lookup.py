@@ -76,5 +76,5 @@ def lambda_handler(event, context):
         if e.response['Error']['Code'] == 'InvalidAMIID.Malformed':
             return event_return(500, {"ErrorMessage": "AMIId is Malformed"})
         else:
-            return event_return(500, {"ErrorMessage": "Unexpected Error")}
+            return event_return(500, {"ErrorMessage": "Unexpected Error"})
     return event_return(200, json.loads(response))
