@@ -1,0 +1,36 @@
+{
+    "bucket": "test-amilookup-lake",
+    "key": "testami",
+    "body": {
+        "VirtualizationType": "hvm",
+        "Description": "Amazon Linux AMI 2018.03.0.20180811 x86_64 HVM GP2",
+        "Hypervisor": "xen",
+        "ImageOwnerAlias": "amazon",
+        "EnaSupport": true,
+        "SriovNetSupport": "simple",
+        "ImageId": "ami-0ff8a91507f77f867",
+        "State": "available",
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "DeleteOnTermination": true,
+              "SnapshotId": "snap-09ccbc8bc8ae7e4e9",
+              "VolumeSize": 8,
+              "VolumeType": "gp2",
+              "Encrypted": false
+            }
+          }
+        ],
+        "Architecture": "x86_64",
+        "ImageLocation": "amazon/amzn-ami-hvm-2018.03.0.20180811-x86_64-gp2",
+        "RootDeviceType": "ebs",
+        "OwnerId": "137112412989",
+        "RootDeviceName": "/dev/xvda",
+        "CreationDate": "2018-08-11T02:30:11.000Z",
+        "Public": true,
+        "ImageType": "machine",
+        "Name": "amzn-ami-hvm-2018.03.0.20180811-x86_64-gp2"
+      }
+}
+
