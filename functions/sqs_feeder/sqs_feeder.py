@@ -72,9 +72,6 @@ for group in grouper(10, images['Images']):
         print("Success!")
 
 
-    break
-
-
 # def lambda_handler(event, context):
 #     print("Got event\n" + json.dumps(event, indent=2))
 

@@ -19,10 +19,13 @@ def lambda_handler(event, context):
     records = event['Records']
     response = []
     for r in records:
+        print(r)
         body = json.loads(r['body'])
         bucket = "test-amilookup-lake"
         key = r['messageAttributes']['region']['stringValue'] + "/" + body['ImageId']
+        print(key)
         s3upload = s3_upload(bucket, key, body)
-        response = response.append(s3upload)
-    
+        print(s3upload)
+        # response = response.append(s3upload)
+        print("Upload Completed")
     return(response)
