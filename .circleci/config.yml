@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_and_deploy:
     docker:
       - image: circleci/python
     steps:
@@ -47,14 +47,20 @@ jobs:
             echo $amilookupfunctionname
 
             ~/.local/bin/aws lambda update-function-code --function-name $amilookupfunctionname --s3-bucket $S3_BUCKET --s3-key functions/ami_lookup_$COMMIT.zip --region $AWS_REGION
-# workflows:
-#   version: 2
-#   build_and_test:
-#     jobs:
-#       - build
-#       - test:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: master
+
+workflows:
+  version: 2
+  deploy-develop:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: develop
+          context: develop
+  deploy-production:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
+          context: production
