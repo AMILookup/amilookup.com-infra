@@ -3,9 +3,6 @@ from botocore.exceptions import ClientError
 import json
 import sys
 
-def throws():
-    raise RuntimeError('The function failed for some reason.')
-
 def event_return(statusCode, body):
     response = {
         'isBase64Encoded': "false",
