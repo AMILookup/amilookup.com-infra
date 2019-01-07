@@ -35,8 +35,8 @@ Parameters:
     Description: "The base domain name for the web site (no 'www')"
     MinLength: 4
     MaxLength: 253
-    AllowedPattern: "[a-z0-9]+[-.a-z0-9]*(\\.[a-z][a-z]+)+"
-    ConstraintDescription: "Provide a valid domain name using only lowercase letters, numbers, and dash (-)"
+    # AllowedPattern: "[a-z0-9]+[-.a-z0-9]*(\\.[a-z][a-z]+)+"
+    # ConstraintDescription: "Provide a valid domain name using only lowercase letters, numbers, and dash (-)"
 
   DefaultTTL:
     Type: Number
@@ -60,11 +60,6 @@ Parameters:
       - PriceClass_200
       - PriceClass_All
     Type: String
-
-  WebsiteUrl:
-    Type: String
-    Description: URL of Site
-    Default: dev.amilookup.com
 
 Mappings:
   RegionMap:
@@ -214,7 +209,7 @@ Resources:
   Route53RecordSetGroup:
     Type: "AWS::Route53::RecordSetGroup"
     Properties:
-      HostedZoneName: !Sub "${WebsiteUrl}."
+      HostedZoneName: !Sub "${DomainName}."
       RecordSets:
         # example.com
         - Name: !Sub "${DomainName}."
