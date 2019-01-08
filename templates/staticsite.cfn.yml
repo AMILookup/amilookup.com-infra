@@ -61,11 +61,6 @@ Parameters:
       - PriceClass_All
     Type: String
 
-  WebsiteUrl:
-    Type: String
-    Description: URL of Site
-    Default: dev.amilookup.com
-
 Mappings:
   RegionMap:
     us-east-1:
@@ -214,7 +209,7 @@ Resources:
   Route53RecordSetGroup:
     Type: "AWS::Route53::RecordSetGroup"
     Properties:
-      HostedZoneName: !Sub "${WebsiteUrl}."
+      HostedZoneName: !Sub "${DomainName}."
       RecordSets:
         # example.com
         - Name: !Sub "${DomainName}."

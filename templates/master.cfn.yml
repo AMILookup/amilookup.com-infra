@@ -54,4 +54,3 @@ Resources:
         env: !Ref env
         DomainName: !Ref WebsiteUrl
         PriceClass: !Ref PriceClass
-        WebsiteUrl: !Ref WebsiteUrl
