@@ -1,0 +1,5 @@
+{
+  "env": "prod",
+  "ArtifactsBucket": "amilookup-artifacts",
+  "WebsiteUrl": "amilookup.com"
+}

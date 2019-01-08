@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AMI Lookup CloudFormation templates
+
+Parameters:
+  env:
+    Type: String
+    Description: Environment Name
+    Default: dev
+  ArtifactsBucket:
+    Type: String
+    Description: Artifacts s3 bucket
+    Default: dev-amilookup-artifacts
+  PriceClass:
+    Description: "Distribution price class. Default is US-only, PriceClass_All is worldwide but more expensive."
+    Default: PriceClass_100
+    AllowedValues:
+      - PriceClass_100
+      - PriceClass_200
+      - PriceClass_All
+    Type: String
+  TemplateBucketS3URL:
+    Type: String
+    Description: s3 URL
+    Default: https://s3.us-east-1.amazonaws.com
+  TemplateBucketName:
+    Type: String
+    Description: S3 Bucket Hosting Templates
+  TemplateBucketPrefix:
+    Type: String
+    Description: S3 Templates Bucket Prefix
+  WebsiteUrl:
+    Type: String
+    Description: URL of Site
+    Default: dev.amilookup.com
+Resources:
+  amilookupStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', !Ref 'TemplateBucketPrefix', amilookup.cfn.yml]]
+      Parameters:
+        ParentStackName: !Ref "AWS::StackName"
+        env: !Ref env
+        ArtifactsBucket: !Ref ArtifactsBucket
+        WebsiteUrl: !Ref WebsiteUrl
+        TemplateBucketS3URL: !Ref TemplateBucketS3URL
+        TemplateBucketName: !Ref TemplateBucketName
+        TemplateBucketPrefix: functions
+  staticsiteStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join [/, [!Ref 'TemplateBucketS3URL', !Ref 'TemplateBucketName', !Ref 'TemplateBucketPrefix', staticsite.cfn.yml]]
+      Parameters:
+        ParentStackName: !Ref "AWS::StackName"
+        env: !Ref env
+        DomainName: !Ref WebsiteUrl
+        PriceClass: !Ref PriceClass

@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build_and_deploy:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+      - run:
+          name: install pre-reqs
+          command: |
+            pip install awscli --user
+            mkdir functions/packed
+      - run:
+          name: ZIP ami_lookup Functions
+          command: |
+            export COMMIT=${CIRCLE_SHA1:0:7}
+            f="ami_lookup"
+            f2="ami_lookup_$COMMIT"
+            cd functions/$f
+            pip install -r requirements.txt --target .
+            zip -r9 ../packed/$f.zip .
+            cp ../packed/$f.zip ../packed/$f2.zip
+      - run:
+          name: Sync functions to S3 Bucket
+          command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
+
+      - run:
+          name: Sync templates to S3 Bucket
+          command: "~/.local/bin/aws s3 sync templates s3://$S3_BUCKET/templates --delete"
+
+      - run:
+          name: Deploy to CloudFormation
+          command: |
+            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml \
+            --stack-name $STACK_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --region $AWS_REGION \
+            --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix \
+            env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET WebsiteUrl=$WEBSITE_URL
+          no_output_timeout: 3600
+      # Currently dont think this is needed, lambda functions should self updated.  This could be for future versioning.
+      # - run:
+      #     name: Deploy lambda Version
+      #     command: |
+      #       export COMMIT=${CIRCLE_SHA1:0:7}
+
+      #       amilookupstackname=`~/.local/bin/aws cloudformation describe-stacks --region $AWS_REGION | grep -o '"StackName": "[^"]*' | grep -o "$STACK_NAME.*amilookupStack.*"`
+      #       echo $amilookupstackname
+
+      #       ~/.local/bin/aws cloudformation describe-stacks --stack-name $amilookupstackname --region $AWS_REGION --query 'Stacks[0].Outputs[?OutputKey==`amilookupFunction`].OutputValue' --output text > amilookupfunctionname.txt
+      #       amilookupfunctionname=$(cat amilookupfunctionname.txt)
+      #       echo $amilookupfunctionname
+
+      #       ~/.local/bin/aws lambda update-function-code --function-name $amilookupfunctionname --s3-bucket $S3_BUCKET --s3-key functions/ami_lookup_$COMMIT.zip --region $AWS_REGION
+
+workflows:
+  version: 2
+  deploy-develop:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: develop
+          context: develop
+  deploy-production:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
+          context: production
