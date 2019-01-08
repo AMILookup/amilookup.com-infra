@@ -31,7 +31,10 @@ jobs:
       - run:
           name: Deploy to CloudFormation
           command: |
-            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml --stack-name $STACK_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --region $AWS_REGION --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET WebsiteUrl=$WEBSITE_URL
+            ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml \
+            --stack-name $STACK_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --region $AWS_REGION \
+            --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix \
+            env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET WebsiteUrl=$WEBSITE_URL
           no_output_timeout: 3600
       # Currently dont think this is needed, lambda functions should self updated.  This could be for future versioning.
       # - run:
