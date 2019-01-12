@@ -10,7 +10,7 @@ from iopipe.contrib.logger import LoggerPlugin
 from iopipe.contrib.profiler import ProfilerPlugin
 from iopipe.contrib.trace import TracePlugin
 
-iopipe = IOpipe(plugins=[LoggerPlugin(enabled=True),EventInfoPlugin()])
+iopipe = IOpipe(plugins=[LoggerPlugin(),EventInfoPlugin(),TracePlugin()])
 
 def event_return(statusCode, body):
     response = {
@@ -78,7 +78,9 @@ def lambda_handler(event, context):
         if ami == "":
             return event_return(500, {"ErrorMessage": "AMIId missing"})
         else:
+            context.iopipe.mark.start('AMILookup')
             response = ami_lookup(region, ami)
+            context.iopipe.mark.end('AMILookup')
     except ClientError as e: 
         if e.response['Error']['Code'] == 'InvalidAMIID.Malformed':
             return event_return(500, {"ErrorMessage": "AMIId is Malformed"})
