@@ -162,7 +162,6 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
-      AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
       Policies:
