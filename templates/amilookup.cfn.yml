@@ -46,7 +46,7 @@ Globals:
       - !Ref IOPipeLayer
     Environment:
       Variables:
-        IOPIPE_TOKEN: 
+        IOPIPE_TOKEN: !Ref IOPipeToken
   Api:
     EndpointConfiguration: REGIONAL
     Cors: !Sub "'${WebsiteUrl}'"
