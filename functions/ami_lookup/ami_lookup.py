@@ -10,16 +10,8 @@ from iopipe.contrib.logger import LoggerPlugin
 from iopipe.contrib.profiler import ProfilerPlugin
 from iopipe.contrib.trace import TracePlugin
 
-iopipe = IOpipe(debug=True)
-
-eventinfo_plugin = EventInfoPlugin()
-iopipe_with_eventinfo = IOpipeCore(debug=True, plugins=[eventinfo_plugin])
-
-logger_plugin = LoggerPlugin(enabled=True)
-iopipe_with_logging = IOpipeCore(debug=True, plugins=[logger_plugin])
-
-logger_plugin_tmp = LoggerPlugin(enabled=True, use_tmp=True)
-iopipe_with_logging_tmp = IOpipeCore(debug=True, plugins=[logger_plugin_tmp])
+iopipe = IOpipe(plugins=[LoggerPlugin(enabled=True),EventInfoPlugin()])
+logger = logging.getLogger()
 
 @iopipe
 def event_return(statusCode, body):
@@ -35,14 +27,14 @@ def event_return(statusCode, body):
 
 @iopipe
 def ami_lookup(region, ami):
-    iopipe.log.info('Starting Function')
+    logger.info('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
-    iopipe.log.info('Looking for Image')
-    iopipe.log.info(ami)
+    logger.info('Looking for Image')
+    logger.info(ami)
     image = ec2.Image(ami)
     image.load()
-    iopipe.log.info('Image loaded')
-    iopipe.log.info(image.name)
+    logger.info('Image loaded')
+    logger.info(image.name)
 
     ami = {}
     ami = json.dumps({
@@ -79,9 +71,9 @@ def ami_lookup(region, ami):
 
     return ami
 
-@iopipe_with_eventinfo
+@iopipe
 def lambda_handler(event, context):
-    context.iopipe.log.info("Got event\n" + json.dumps(event, indent=2))
+    logger.info("Got event\n" + json.dumps(event, indent=2))
     response = {}
     ami = event['ami']
     region = event['region']
