@@ -1,10 +1,8 @@
 import boto3
 from botocore.exceptions import ClientError
 import json
-import logging
 import os
 import sys
-
 
 from iopipe import IOpipe, IOpipeCore
 from iopipe.contrib.eventinfo import EventInfoPlugin
@@ -13,7 +11,6 @@ from iopipe.contrib.profiler import ProfilerPlugin
 from iopipe.contrib.trace import TracePlugin
 
 iopipe = IOpipe(plugins=[LoggerPlugin(enabled=True),EventInfoPlugin()])
-logger = logging.getLogger()
 
 @iopipe
 def event_return(statusCode, body):
@@ -29,14 +26,14 @@ def event_return(statusCode, body):
 
 @iopipe
 def ami_lookup(region, ami):
-    logger.info('Starting Function')
+    ami.iopipe.log.info('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
-    logger.info('Looking for Image')
-    logger.info(ami)
+    ami.iopipe.log.info('Looking for Image')
+    ami.iopipe.log.info(ami)
     image = ec2.Image(ami)
     image.load()
-    logger.info('Image loaded')
-    logger.info(image.name)
+    ami.iopipe.log.info('Image loaded')
+    ami.iopipe.log.info(image.name)
 
     ami = {}
     ami = json.dumps({
@@ -75,7 +72,7 @@ def ami_lookup(region, ami):
 
 @iopipe
 def lambda_handler(event, context):
-    logger.info("Got event\n" + json.dumps(event, indent=2))
+    context.iopipe.log.info("Got event\n" + json.dumps(event, indent=2))
     response = {}
     ami = event['ami']
     region = event['region']
