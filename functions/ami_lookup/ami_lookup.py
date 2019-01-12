@@ -24,14 +24,14 @@ def event_return(statusCode, body):
     return response
 
 def ami_lookup(region, ami):
-    ami.iopipe.log.info('Starting Function')
+    print('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
-    ami.iopipe.log.info('Looking for Image')
-    ami.iopipe.log.info(ami)
+    print('Looking for Image')
+    print(ami)
     image = ec2.Image(ami)
     image.load()
-    ami.iopipe.log.info('Image loaded')
-    ami.iopipe.log.info(image.name)
+    print('Image loaded')
+    print(image.name)
 
     ami = {}
     ami = json.dumps({
@@ -70,7 +70,7 @@ def ami_lookup(region, ami):
 
 @iopipe
 def lambda_handler(event, context):
-    context.iopipe.log.info("Got event\n" + json.dumps(event, indent=2))
+    print("Got event\n" + json.dumps(event, indent=2))
     response = {}
     ami = event['ami']
     region = event['region']

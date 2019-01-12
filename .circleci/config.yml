@@ -8,6 +8,7 @@ jobs:
       - run:
           name: install pre-reqs
           command: |
+            pip --version
             pip install awscli --user
             mkdir functions/packed
       - run:
