@@ -15,10 +15,10 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
-  WebsiteUrl:
+  IOPipeLayer:
     Type: String
-    Description: WebsiteURL for CORS
-    Default: dev.amilookup.com
+    Description: IOPipe.io layer for integration.
+    # Default: arn:aws:lambda:us-east-1:146318645305:layer:IOpipePython:5
   ParentStackName:
     Type: String
     Description: Parent CloudFormation Stack Name
@@ -31,10 +31,16 @@ Parameters:
   TemplateBucketPrefix:
     Type: String
     Description: S3 Templates Bucket Prefix
+  WebsiteUrl:
+    Type: String
+    Description: WebsiteURL for CORS
+    Default: dev.amilookup.com
 
 Globals:
   Function:
     Runtime: python3.7
+    Layers:
+      - !Ref IOPipeLayer
   Api:
     EndpointConfiguration: REGIONAL
     Cors: !Sub "'${WebsiteUrl}'"
@@ -146,10 +152,12 @@ Resources:
   amilookupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: ami_lookup.lambda_handler
+      Handler: iopipe.handler.wrapper
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
+      Environment:
+        IOPIPE_HANDLER: ami_lookup_lambda_handler
       AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15

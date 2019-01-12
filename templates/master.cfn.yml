@@ -10,6 +10,13 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
+  IOPipeToken:
+    Type: String
+    Description: IOPipe.io token for integration.
+  IOPipeLayerVersion:
+    Type: String
+    Description: IOPipe Layer Version
+    Default: 5
   PriceClass:
     Description: "Distribution price class. Default is US-only, PriceClass_All is worldwide but more expensive."
     Default: PriceClass_100
@@ -41,6 +48,8 @@ Resources:
         ParentStackName: !Ref "AWS::StackName"
         env: !Ref env
         ArtifactsBucket: !Ref ArtifactsBucket
+        IOPipeLayer: !Sub "arn:aws:lambda:${AWS::Region}:146318645305:layer:IOpipePython:${IOPipeLayerVersion}"
+        IOPipeToken: !Ref IOPipeToken
         WebsiteUrl: !Ref WebsiteUrl
         TemplateBucketS3URL: !Ref TemplateBucketS3URL
         TemplateBucketName: !Ref TemplateBucketName

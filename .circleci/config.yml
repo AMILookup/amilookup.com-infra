@@ -22,19 +22,19 @@ jobs:
             cp ../packed/$f.zip ../packed/$f2.zip
       - run:
           name: Sync functions to S3 Bucket
-          command: "~/.local/bin/aws s3 sync functions/packed s3://$S3_BUCKET/functions --delete"
+          command: "~/.local/bin/aws s3 sync functions/packed s3://$ARTIFACTS_BUCKET/functions --delete"
 
       - run:
           name: Sync templates to S3 Bucket
-          command: "~/.local/bin/aws s3 sync templates s3://$S3_BUCKET/templates --delete"
+          command: "~/.local/bin/aws s3 sync templates s3://$ARTIFACTS_BUCKET/templates --delete"
 
       - run:
           name: Deploy to CloudFormation
           command: |
             ~/.local/bin/aws cloudformation deploy --template-file templates/master.cfn.yml \
             --stack-name $STACK_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --region $AWS_REGION \
-            --parameter-overrides TemplateBucketName=$S3_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix \
-            env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET WebsiteUrl=$WEBSITE_URL
+            --parameter-overrides TemplateBucketName=$ARTIFACTS_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix \
+            env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET IOPipeToken=$IOPipeToken WebsiteUrl=$WEBSITE_URL
           no_output_timeout: 3600
       # Currently dont think this is needed, lambda functions should self updated.  This could be for future versioning.
       # - run:
@@ -49,7 +49,7 @@ jobs:
       #       amilookupfunctionname=$(cat amilookupfunctionname.txt)
       #       echo $amilookupfunctionname
 
-      #       ~/.local/bin/aws lambda update-function-code --function-name $amilookupfunctionname --s3-bucket $S3_BUCKET --s3-key functions/ami_lookup_$COMMIT.zip --region $AWS_REGION
+      #       ~/.local/bin/aws lambda update-function-code --function-name $amilookupfunctionname --s3-bucket $ARTIFACTS_BUCKET --s3-key functions/ami_lookup_$COMMIT.zip --region $AWS_REGION
 
 workflows:
   version: 2
