@@ -23,7 +23,6 @@ def event_return(statusCode, body):
     }
     return response
 
-@iopipe
 def ami_lookup(region, ami):
     ami.iopipe.log.info('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
