@@ -159,9 +159,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: ami_lookup.lambda_handler
-      CodeUri:
-        Bucket: !Ref TemplateBucketName
-        Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
+      CodeUri: ../packed/ami_lookup.zip
       MemorySize: 128
       Timeout: 15
       Policies:
