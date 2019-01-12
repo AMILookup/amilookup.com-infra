@@ -4,9 +4,22 @@ import os
 import json
 import sys
 
-from iopipe import iopipe
+from iopipe import IOpipe, IOpipeCore
+from iopipe.contrib.eventinfo import EventInfoPlugin
+from iopipe.contrib.logger import LoggerPlugin
+from iopipe.contrib.profiler import ProfilerPlugin
+from iopipe.contrib.trace import TracePlugin
 
-iopipe = IOpipe()
+iopipe = IOpipe(debug=True)
+
+eventinfo_plugin = EventInfoPlugin()
+iopipe_with_eventinfo = IOpipeCore(debug=True, plugins=[eventinfo_plugin])
+
+logger_plugin = LoggerPlugin(enabled=True)
+iopipe_with_logging = IOpipeCore(debug=True, plugins=[logger_plugin])
+
+logger_plugin_tmp = LoggerPlugin(enabled=True, use_tmp=True)
+iopipe_with_logging_tmp = IOpipeCore(debug=True, plugins=[logger_plugin_tmp])
 
 @iopipe
 def event_return(statusCode, body):
@@ -20,15 +33,16 @@ def event_return(statusCode, body):
     }
     return response
 
+@iopipe
 def ami_lookup(region, ami):
-    print('Starting Function')
+    iopipe.log.info('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
-    print('Looking for Image')
-    print(ami)
+    iopipe.log.info('Looking for Image')
+    iopipe.log.info(ami)
     image = ec2.Image(ami)
     image.load()
-    print('Image loaded')
-    print(image.name)
+    iopipe.log.info('Image loaded')
+    iopipe.log.info(image.name)
 
     ami = {}
     ami = json.dumps({
@@ -65,8 +79,9 @@ def ami_lookup(region, ami):
 
     return ami
 
+@iopipe_with_eventinfo
 def lambda_handler(event, context):
-    print("Got event\n" + json.dumps(event, indent=2))
+    context.iopipe.log.info("Got event\n" + json.dumps(event, indent=2))
     response = {}
     ami = event['ami']
     region = event['region']
