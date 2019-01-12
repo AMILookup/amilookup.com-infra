@@ -1,8 +1,14 @@
 import boto3
 from botocore.exceptions import ClientError
+import os
 import json
 import sys
 
+from iopipe import iopipe
+
+iopipe = IOpipe()
+
+@iopipe
 def event_return(statusCode, body):
     response = {
         'isBase64Encoded': "false",

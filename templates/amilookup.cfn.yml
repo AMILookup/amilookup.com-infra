@@ -158,13 +158,10 @@ Resources:
   amilookupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: iopipe.handler.wrapper
+      Handler: ami_lookup.lambda_handler
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
-      Environment:
-        Variables:
-          IOPIPE_HANDLER: ami_lookup_lambda_handler
       AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
