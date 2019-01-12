@@ -24,7 +24,6 @@ def event_return(statusCode, body):
     }
     return response
 
-@iopipe
 def ami_lookup(region, ami):
     ami.iopipe.log.info('Starting Function')
     ec2 = boto3.resource('ec2', region_name=region)
@@ -70,7 +69,6 @@ def ami_lookup(region, ami):
 
     return ami
 
-@iopipe
 def lambda_handler(event, context):
     context.iopipe.log.info("Got event\n" + json.dumps(event, indent=2))
     response = {}
