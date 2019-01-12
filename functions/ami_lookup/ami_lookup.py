@@ -1,8 +1,10 @@
 import boto3
 from botocore.exceptions import ClientError
-import os
 import json
+import logging
+import os
 import sys
+
 
 from iopipe import IOpipe, IOpipeCore
 from iopipe.contrib.eventinfo import EventInfoPlugin
