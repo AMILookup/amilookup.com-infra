@@ -19,6 +19,9 @@ Parameters:
     Type: String
     Description: IOPipe.io layer for integration.
     # Default: arn:aws:lambda:us-east-1:146318645305:layer:IOpipePython:5
+  IOPipeToken:
+    Type: String
+    Description: IOPipe.io token for integration.
   ParentStackName:
     Type: String
     Description: Parent CloudFormation Stack Name
@@ -41,6 +44,9 @@ Globals:
     Runtime: python3.7
     Layers:
       - !Ref IOPipeLayer
+    Environment:
+      Variables:
+        IOPIPE_TOKEN: 
   Api:
     EndpointConfiguration: REGIONAL
     Cors: !Sub "'${WebsiteUrl}'"
@@ -157,7 +163,8 @@ Resources:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
       Environment:
-        IOPIPE_HANDLER: ami_lookup_lambda_handler
+        Variables:
+          IOPIPE_HANDLER: ami_lookup_lambda_handler
       AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
