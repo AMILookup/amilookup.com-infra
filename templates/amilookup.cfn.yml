@@ -160,7 +160,7 @@ Resources:
     Properties:
       ApiStages:
         - ApiId: !Ref amilookupApiGateway
-      Stage: !Ref env
+          Stage: !Ref env
       Description: Default Rate Limits
       # Quota:
       #   Limit: 5
