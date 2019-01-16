@@ -2,7 +2,6 @@ import boto3
 from botocore.exceptions import ClientError
 import json
 import os
-import sys
 
 from iopipe import IOpipe, IOpipeCore
 from iopipe.contrib.eventinfo import EventInfoPlugin
@@ -58,9 +57,7 @@ def ami_lookup(region, ami):
     # Handle Null values in JSON.
     ami_json = json.loads(ami)
     for key, value in ami_json.items():
-        print("{} = {}".format(key, value))
         if value is None:
-            print("{} is Null".format(key))
             ami_json[key] = "None"
         if value is "":
             ami_json[key] = "None"
