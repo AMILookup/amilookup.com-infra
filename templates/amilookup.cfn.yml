@@ -161,11 +161,9 @@ Resources:
       ApiStages:
         - ApiId: !Ref amilookupApiGateway
           Stage: !Ref env
-          Throttle: 
-            String:
-              -
-                RateLimit: 15
-                BurstLimit: 5
+      Throttle: 
+        RateLimit: 5
+        BurstLimit: 15
       Description: Default Rate Limits
       # Quota:
       #   Limit: 5
