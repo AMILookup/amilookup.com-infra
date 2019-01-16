@@ -22,6 +22,8 @@ def event_return(statusCode, body):
         },
         'body': body
     }
+    if statusCode != 200:
+        logger.error(f"StatusCode: {statusCode} with {body}")
     return response
 
 def ami_lookup(region, ami):
@@ -76,7 +78,6 @@ def lambda_handler(event, context):
     region = event['region']
     try:
         if ami == "":
-            logger.error("AMIId is missing")
             return event_return(500, {"ErrorMessage": "AMIId is missing"})
         else:
             context.iopipe.mark.start('AMILookup')
@@ -84,9 +85,7 @@ def lambda_handler(event, context):
             context.iopipe.mark.end('AMILookup')
     except ClientError as e: 
         if e.response['Error']['Code'] == 'InvalidAMIID.Malformed':
-            logger.error("AMIId is Malformed")
             return event_return(500, {"ErrorMessage": "AMIId is Malformed"})
         else:
-            logger.error("Unexpected Error")
             return event_return(500, {"ErrorMessage": "Unexpected Error"})
     return event_return(200, json.loads(response))
