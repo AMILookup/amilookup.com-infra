@@ -155,6 +155,19 @@ Resources:
                     type: "string"
                   Access-Control-Allow-Origin:
                     type: "string"
+  amilookupApiGatewayUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    Properties:
+      ApiStages:
+        - ApiId: !Ref 'ApiGatewayApi'
+      Stage: !Ref ENV
+      Description: Default Rate Limits
+      # Quota:
+      #   Limit: 5
+      #   Period: DAY
+      Throttle: 
+        BurstLimit: 15
+        RateLimit: 5
   amilookupFunction:
     Type: AWS::Serverless::Function
     Properties:
