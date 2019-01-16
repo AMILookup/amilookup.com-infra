@@ -159,7 +159,7 @@ Resources:
     Type: AWS::ApiGateway::UsagePlan
     Properties:
       ApiStages:
-        - ApiId: !Ref 'ApiGatewayApi'
+        - ApiId: !Ref amilookupApiGateway
       Stage: !Ref env
       Description: Default Rate Limits
       # Quota:
