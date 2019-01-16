@@ -10,7 +10,7 @@ from iopipe.contrib.logger import LoggerPlugin
 from iopipe.contrib.profiler import ProfilerPlugin
 from iopipe.contrib.trace import TracePlugin
 
-iopipe = IOpipe(plugins=[LoggerPlugin(enabled=True),EventInfoPlugin(),TracePlugin()])
+iopipe = IOpipe(plugins=[LoggerPlugin(enabled=True),TracePlugin()])
 logger = logging.getLogger()
 
 def event_return(statusCode, body):
