@@ -15,10 +15,13 @@ Parameters:
     Type: String
     Description: Artifacts s3 bucket
     Default: dev-amilookup-artifacts
-  WebsiteUrl:
+  IOPipeLayer:
     Type: String
-    Description: WebsiteURL for CORS
-    Default: dev.amilookup.com
+    Description: IOPipe.io layer for integration.
+    # Default: arn:aws:lambda:us-east-1:146318645305:layer:IOpipePython:5
+  IOPipeToken:
+    Type: String
+    Description: IOPipe.io token for integration.
   ParentStackName:
     Type: String
     Description: Parent CloudFormation Stack Name
@@ -31,10 +34,19 @@ Parameters:
   TemplateBucketPrefix:
     Type: String
     Description: S3 Templates Bucket Prefix
+  WebsiteUrl:
+    Type: String
+    Description: WebsiteURL for CORS
+    Default: dev.amilookup.com
 
 Globals:
   Function:
     Runtime: python3.7
+    Layers:
+      - !Ref IOPipeLayer
+    Environment:
+      Variables:
+        IOPIPE_TOKEN: !Ref IOPipeToken
   Api:
     EndpointConfiguration: REGIONAL
     Cors: !Sub "'${WebsiteUrl}'"
@@ -143,6 +155,19 @@ Resources:
                     type: "string"
                   Access-Control-Allow-Origin:
                     type: "string"
+  amilookupApiGatewayUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    Properties:
+      ApiStages:
+        - ApiId: !Ref amilookupApiGateway
+          Stage: !Ref env
+      Throttle: 
+        RateLimit: 5
+        BurstLimit: 15
+      Description: Default Rate Limits
+      # Quota:
+      #   Limit: 5
+      #   Period: DAY
   amilookupFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -150,7 +175,6 @@ Resources:
       CodeUri:
         Bucket: !Ref TemplateBucketName
         Key: !Sub ${TemplateBucketPrefix}/${amilookupFunctionKey}
-      AutoPublishAlias: live
       MemorySize: 128
       Timeout: 15
       Policies:
