@@ -206,3 +206,5 @@ Resources:
 Outputs:
   amilookupFunction:
     Value: !Ref amilookupFunction
+  apigateway:
+    Value: !Ref amilookupApiGateway
