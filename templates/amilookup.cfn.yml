@@ -206,5 +206,5 @@ Resources:
 Outputs:
   amilookupFunction:
     Value: !Ref amilookupFunction
-  apigateway:
-    Value: !Ref amilookupApiGateway
+  apigatewayurl:
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${env}/"
