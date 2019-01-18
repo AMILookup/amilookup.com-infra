@@ -11,6 +11,7 @@ jobs:
             pip --version
             pip install awscli --user
             mkdir functions/packed
+
       - run:
           name: ZIP ami_lookup Functions
           command: |
@@ -21,6 +22,7 @@ jobs:
             pip install -r requirements.txt --target .
             zip -r9 ../packed/$f.zip .
             cp ../packed/$f.zip ../packed/$f2.zip
+
       - run:
           name: Sync functions to S3 Bucket
           command: "~/.local/bin/aws s3 sync functions/packed s3://$ARTIFACTS_BUCKET/functions"
@@ -39,6 +41,7 @@ jobs:
             --parameter-overrides TemplateBucketName=$ARTIFACTS_BUCKET TemplateBucketPrefix=$TemplateBucketPrefix \
             env=$ENV ArtifactsBucket=$ARTIFACTS_BUCKET IOPipeToken=$IOPipeToken WebsiteUrl=$WEBSITE_URL
           no_output_timeout: 3600
+          
       # This is needed because SAM Packing doesnt work with Nested Templates.
       - run:
           name: Deploy lambda Version
