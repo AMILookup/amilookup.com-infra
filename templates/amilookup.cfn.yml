@@ -206,3 +206,5 @@ Resources:
 Outputs:
   amilookupFunction:
     Value: !Ref amilookupFunction
+  apigatewayurl:
+    Value: !Sub "https://${amilookupApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${env}/ami"
