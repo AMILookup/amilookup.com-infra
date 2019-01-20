@@ -49,7 +49,7 @@ Globals:
         IOPIPE_TOKEN: !Ref IOPipeToken
   Api:
     EndpointConfiguration: REGIONAL
-    Cors: !Sub "'${WebsiteUrl}'"
+    Cors: !Sub "'https://${WebsiteUrl}'"
 
 Resources:
   # cacheTable:
@@ -92,9 +92,6 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref env
-      Cors:
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-        AllowOrigin: !Sub "'${WebsiteUrl}'"
       DefinitionBody:
         swagger: "2.0"
         info:
@@ -144,7 +141,7 @@ Resources:
                   responseParameters:
                     method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
                     method.response.header.Access-Control-Allow-Methods : "'*'"
-                    method.response.header.Access-Control-Allow-Origin : !Sub "'${WebsiteUrl}'"
+                    method.response.header.Access-Control-Allow-Origin : !Sub "'https://${WebsiteUrl}'"
                   responseTemplates:
                     application/json: |
                       {}
