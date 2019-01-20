@@ -156,6 +156,7 @@ Resources:
                   Access-Control-Allow-Origin:
                     type: "string"
   amilookupApiGatewayUsagePlan:
+    DependsOn: amilookupApiGateway
     Type: AWS::ApiGateway::UsagePlan
     Properties:
       ApiStages:
